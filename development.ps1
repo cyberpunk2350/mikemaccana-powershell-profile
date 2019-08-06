@@ -4,10 +4,14 @@ Add-PathVariable "${env:ProgramFiles}\Python"
 # pip is in the scripts dir
 Add-PathVariable "${env:ProgramFiles}\Python\Scripts"
 
+# mongoDB
+Add-PathVariable 'C:\Program Files\MongoDB\Server\4.0\bin'
+
 # git
 Add-PathVariable "${env:ProgramFiles}/git/bin"
 # To use git supplied by SourceTree instead of the 'git for Windows' version
 # Add-PathVariable "${env:LOCALAPPDATA}\Atlassian\SourceTree\git_local\bin"
+Add-PathVariable "${env:ProgramFiles}\Git\bin"
 
 # vscode
 Add-PathVariable "${env:LOCALAPPDATA}\Programs\Microsoft VS Code\bin" 
@@ -24,7 +28,7 @@ Add-PathVariable "${env:ProgramFiles}\Python\Scripts"
 # . 'C:\Users\mike\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
 
 function gg {
-	# Replace file:linenumber:content with file:linenumber:content
+	# Replace 'file:linenumber:content' with 'file:linenumber content'
 	# so you can just click the file:linenumber and go straight there.
 	& git grep -n -i @args | foreach-object { $_ -replace '(\d+):','$1 ' }  
 }

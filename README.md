@@ -11,7 +11,7 @@ Heya. I've been using bash for about two decades before getting into Powershell.
  - Useful commands for software development using git. See [development.ps1](development.ps1)
  - Useful commands and settings for node development. See [node.ps1](node.ps1)
  - Useful commands for crypto, including converting between different crypto file types, checking if private keys and certs match, etc. See [openssl.ps1](openssl.ps1)
- - A [config file](terminus-settings.yaml) for [Terminus](https://github.com/Eugeny/terminus), the best Windows terminal.
+ - Config files for [Windows Terminal](profiles.json), [Terminus](terminus-settings.yaml), and other modern Windows terminals.
  
 The profile code itself contains useful implementations of common patterns - eg, installing packages, reading the registry, interacting with files and processes. **Learning the things required to make a profile you're happy with is a great way to get comfortable with Powershell.** 
 
@@ -25,7 +25,7 @@ This is what I install on any Windows 10 box.
 
 [Powershell Core 6.2](https://docs.microsoft.com/en-gb/powershell/scripting/setup/Installing-PowerShell-Core-on-Windows?view=powershell-6) has a number of useful bits, but the main thing is it starts way faster than Powershell 5, so there's less lag when you open a new tab.
 
-Powershell 6.2 includes PSReadline, which provides history with up/down arrows, other useful vi/emacs keybindings you'll know from bash.
+Powershell 6.2 includes PSReadline, which provides history with up/down arrows, ctrl left and right to move between words, and other useful keybindings you'll know from bash.
 
 After install, make a shortcut to `"C:\Program Files\PowerShell\6\pwsh.exe" -nologo` and pin that to your taskbar. The `-nologo` makes Powershell skip some boring startup messages.
 
@@ -33,13 +33,26 @@ After install, make a shortcut to `"C:\Program Files\PowerShell\6\pwsh.exe" -nol
 
 #### Tabbed terminals that work now
 
-The terminals below all support tabs, readline, right click paste, copy on select, and all the usual things you expect from any decent terminal emulator. I currently use **Fluent**, but have also used **Terminus** and **Hyper** regularly. 
+The terminals below all support:
 
-<img src="misc/terminus.png"/>
+ - Tabs
+ - Readline
+ - Right click paste
+ - Copy on select
+ 
+....and all the usual things you expect from any decent terminal emulator. I use **Windows Terminal**, which is in alpha right now, with a few workarounds for bugs. If you just want an awesome working terminal though, **Fluent Terminal** is a little older and works great out of the box.
 
- - [**FluentTerminal**](https://github.com/felixse/FluentTerminal) is a native Windows 10 terminal that feels as if Microsoft had written it. Use the chocolatey install method.
-  - [**Terminus**](https://eugeny.github.io/terminus/) (pictured above) works great. Tweaking colors, keyboard shortcuts etc is easy via the menus, and [my settings file is included](terminus-settings.yaml) if you just want my config. 
-  - [**Hyper**](https://hyper.is/) Install [Hyper 3 Canary](https://github.com/zeit/hyper/releases). Run:
+<img src="misc/windows-terminal.png"/>
+
+ - [**Microsoft's official Windows Terminal**](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701) is in preview mode (settings is just a JSON file, copy on select doesn't work) but it's otherwise OK as a daily driver. 
+ 
+```powershell
+cp profiles.json $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_*\RoamingState\profiles.json
+```
+
+ - [**FluentTerminal**](https://github.com/felixse/FluentTerminal) is a native Windows 10 terminal that feels as if Microsoft had written it. It requires minimal configuration (just to add Powershell 6 to the profiles), has all the features you'd expect, and is fast. 
+  - [**Terminus**](https://eugeny.github.io/terminus/) works great. Tweaking colors, keyboard shortcuts etc is easy via the menus, and [my settings file is included](terminus-settings.yaml) if you just want my config. 
+  - [**Hyper**](https://hyper.is/) Install Hyper 3 and modify the config to set:
  ```
  shell: "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
  ```
@@ -111,7 +124,7 @@ To allow you to install items without further prompts:
 
 Get the [Powershell Community Extensions](https://github.com/Pscx/Pscx). Run:
 
-	Install-Module Pscx -Scope CurrentUser -AllowClobber
+	Install-Module Pscx -Scope CurrentUser
 	
 AllowClobber is needed due to [this bug](https://github.com/Pscx/Pscx/issues/15)	
 
@@ -123,13 +136,11 @@ Run:
 
 ### To pick a color scheme / theme
 
+Browse [iterm2colorschemes.com](https://iterm2colorschemes.com/) and download the equivalent named Windows Terminal file from [their Windows Terminal color schemes](https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/windowsterminal). Open **Settings** and paste it into the `schemes` section, then select that scheme name for the profile you want to use it with in `profiles`.
+
 Terminus has it's own color schemes, just open **Settings** > **Appearance** > **Color Scheme** and pick one (or use my config file).
 
-Otherwise, the Windows console supports the well know `.itermcolors` format. You can view hundreds of popular themes at [iterm2colorschemes.com](https://iterm2colorschemes.com/). I like [Monokai Soda](https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Monokai%20Soda.itermcolors)
-
-You can edit an `.itermcolors` file using [terminal.sexy](https://terminal.sexy). 
-
-[ColorTool](https://blogs.msdn.microsoft.com/commandline/2017/08/11/introducing-the-windows-console-colortool/) applies the `.itermcolors` file - it determines coloring for powershell, bash, and cmd. [Download ColorTool from Microsoft's GitHub](https://github.com/Microsoft/console/tree/master/tools/ColorTool).
+[ColorTool](https://blogs.msdn.microsoft.com/commandline/2017/08/11/introducing-the-windows-console-colortool/) also supports importing the well know `.itermcolors` format. [Download ColorTool from Microsoft's GitHub](https://github.com/Microsoft/console/tree/master/tools/ColorTool). You can edit an `.itermcolors` file using [terminal.sexy](https://terminal.sexy). 
 
 Run:
 
@@ -169,7 +180,7 @@ Start [Powershell 5](https://github.com/felixrieseberg/windows-build-tools/issue
 
 ## Minimum Powershell concepts to learn before you rant about how much you hate Powershell
 
-These come with powershell. If you don't know them you're the equivalent of someone who doesn't know `grep` ranting about how "Unix is like DOS". Might be painful to hear but it's true. 
+These come with powershell. If you don't know them you're the equivalent of someone who doesn't know `grep` ranting about how "Unix is like DOS". That might be painful to hear but it's true. 
 
 `select` (also called `select-object`) - select the fields you want on an object
 
@@ -178,6 +189,8 @@ These come with powershell. If you don't know them you're the equivalent of some
 `get-itemproperty` - show the properties of registry objects (`ls` only shows children)
 
 `where` (also called `where-object`) - choose items matching some criteria.
+
+`get-help some-command -examples` - every command has examples.
 
 ## How does Powershell actually differ from bash, day-to-day?
 
@@ -203,7 +216,7 @@ You might prefer one or the other, but the important difference:
 
 ### Why Windows filesystem is slow
 
-Filesystem access under Windows is undoubtably slower than ext3/4 for most tasks. See https://github.com/Microsoft/WSL/issues/873#issuecomment-425272829 for more details about why and some performance hints to speed things up.
+Filesystem access under Windows is undoubtably slower than ext3/4 for most tasks. See https://github.com/Microsoft/WSL/issues/873#issuecomment-425272829 for more details about why and some performance hints to speed things up. There's also [plans to improve things in future](https://twitter.com/shanselman/status/1123467067880038400).
 
 ## Included commands
 

@@ -19,7 +19,11 @@ function explorer {
 }
 
 function edge {
-  start microsoft-edge:
+  # Old Edge
+  # start microsoft-edge:
+  #
+  # New Chromioum Edge
+  & "${env:ProgramFiles(x86)}\Microsoft\Edge Dev\Application\msedge.exe"
 }
 function settings {
   start-process ms-setttings:
@@ -45,6 +49,12 @@ function prompt {
   Write-Host " $" -NoNewline
   $global:LASTEXITCODE = $realLASTEXITCODE
   Return " "
+}
+
+# Make $lastObject save the last object output
+# From http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
+function out-default {
+  $input | Tee-Object -var global:lastobject | Microsoft.PowerShell.Core\out-default
 }
 
 # If you prefer oh-my-posh
