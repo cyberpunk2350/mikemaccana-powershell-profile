@@ -52,8 +52,15 @@ function edit {
 	& "code" -g @args
 }
 
+function fork {
+	# Fork requires an absolute path https://github.com/ForkIssues/TrackerWin/issues/416#issuecomment-527067604
+	$absolutePath = resolve-path .
+	& ${env:LOCALAPPDATA}\Fork\Fork.exe $absolutePath
+}
+
 # I used to run Sublime so occasionally my fingers type it
 function subl {
 	# 	& "$env:ProgramFiles\Sublime Text 3\subl.exe" @args
 	write-output "Type 'edit' instead"
 }
+

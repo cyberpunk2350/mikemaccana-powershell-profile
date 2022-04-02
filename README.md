@@ -27,7 +27,25 @@ This is what I install on any Windows 10 box.
 
 Powershell 6.2 includes PSReadline, which provides history with up/down arrows, ctrl left and right to move between words, and other useful keybindings you'll know from bash.
 
-After install, make a shortcut to `"C:\Program Files\PowerShell\6\pwsh.exe" -nologo` and pin that to your taskbar. The `-nologo` makes Powershell skip some boring startup messages.
+### Trust PSGallery
+
+To allow you to install items without further prompts:
+
+	Set-PSRepository -name PSGallery -InstallationPolicy Trusted
+
+### For `less`, `Add-PAthVariable` and a bunch of other useful commands that should be there out of the box
+
+Get the [Powershell Community Extensions](https://github.com/Pscx/Pscx). Run:
+
+	Install-Module Pscx -Scope CurrentUser
+	
+AllowClobber is needed due to [this bug](https://github.com/Pscx/Pscx/issues/15)	
+
+### For 'Remove-ItemSafely' - ie, trashing files from the command line
+
+Run:
+
+	Install-Module -Name Recycle -Scope CurrentUser
 
 ### For a decent, tabbed terminal
 
@@ -40,16 +58,11 @@ The terminals below all support:
  - Right click paste
  - Copy on select
  
-....and all the usual things you expect from any decent terminal emulator. I use **Windows Terminal**, which is in alpha right now, with a few workarounds for bugs. If you just want an awesome working terminal though, **Fluent Terminal** is a little older and works great out of the box.
+....and all the usual things you expect from any decent terminal emulator. I use **Windows Terminal**, which is in Preview right now, but usable as a day to day terminal. **Fluent Terminal** also works great out of the box.
 
 <img src="misc/windows-terminal.png"/>
 
- - [**Microsoft's official Windows Terminal**](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701) is in preview mode (settings is just a JSON file, copy on select doesn't work) but it's otherwise OK as a daily driver. 
- 
-```powershell
-cp profiles.json $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_*\RoamingState\profiles.json
-```
-
+ - [**Microsoft's official Windows Terminal**](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701). Open the Settings file, enable `copyOnSelect` and change `"commandline": "C:\\Program Files\\PowerShell\\6\\pwsh.exe -nologo",` - the `nologo` makes Powershell skip some boring startup messages.
  - [**FluentTerminal**](https://github.com/felixse/FluentTerminal) is a native Windows 10 terminal that feels as if Microsoft had written it. It requires minimal configuration (just to add Powershell 6 to the profiles), has all the features you'd expect, and is fast. 
   - [**Terminus**](https://eugeny.github.io/terminus/) works great. Tweaking colors, keyboard shortcuts etc is easy via the menus, and [my settings file is included](terminus-settings.yaml) if you just want my config. 
   - [**Hyper**](https://hyper.is/) Install Hyper 3 and modify the config to set:
@@ -114,25 +127,7 @@ These have the 'everything at once' UI design of older Windows operating systems
  - [**ConEmu**](https://conemu.github.io/) works, but has some contrast issues which make it hard to see the open tab, and is hampered by its author's desire for Windows XP support. 
  - [**ConsoleZ**](https://github.com/cbucher/console) is an updated version of the now-unmaintained Console2.
 
-### Trust PSGallery
 
-To allow you to install items without further prompts:
-
-	Set-PSRepository -name PSGallery -InstallationPolicy Trusted
-
-### For 'less' and a bunch of other useful stuff
-
-Get the [Powershell Community Extensions](https://github.com/Pscx/Pscx). Run:
-
-	Install-Module Pscx -Scope CurrentUser
-	
-AllowClobber is needed due to [this bug](https://github.com/Pscx/Pscx/issues/15)	
-
-### For 'Remove-ItemSafely' - ie, trashing files from the command line
-
-Run:
-
-	Install-Module -Name Recycle -Scope CurrentUser
 
 ### To pick a color scheme / theme
 
